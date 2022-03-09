@@ -14,13 +14,29 @@ class ProfileAdmin(admin.ModelAdmin):
             'fields': ('account_type', 'country')
         }),
     )
-    ordering = ('-name',)
+    ordering = ('-id',)
 
 
-admin.site.register(models.AccountType)
-admin.site.register(models.Post)
-admin.site.register(models.Link)
-admin.site.register(models.Country)
+@admin.register(models.AccountType)
+class AccountTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'type')
+
+
+@admin.register(models.Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('id', 'profile', 'content')
+
+
+@admin.register(models.Link)
+class LinkAdmin(admin.ModelAdmin):
+    list_display = ('id', 'profile', 'content')
+    ordering = ('profile',)
+
+
+@admin.register(models.Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    ordering = ('name',)
 
 
 
