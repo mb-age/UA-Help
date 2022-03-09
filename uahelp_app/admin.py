@@ -3,6 +3,13 @@ from . import models
 
 
 # Register your models here.
+
+class ProfileLinkInlineAdmin(admin.TabularInline):
+    model = models.Link
+    extra = 1
+
+
+
 @admin.register(models.Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'account_type', 'user', 'country')
@@ -15,6 +22,7 @@ class ProfileAdmin(admin.ModelAdmin):
         }),
     )
     ordering = ('-id',)
+    inlines = (ProfileLinkInlineAdmin,)
 
 
 @admin.register(models.AccountType)
@@ -34,10 +42,10 @@ class LinkAdmin(admin.ModelAdmin):
     ordering = ('profile',)
 
 
-@admin.register(models.Country)
-class CountryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    ordering = ('name',)
+# @admin.register(models.Country)
+# class CountryAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'name')
+#     ordering = ('name',)
 
 
 
