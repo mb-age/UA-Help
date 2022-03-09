@@ -10,7 +10,7 @@ class ProfileAdmin(admin.ModelAdmin):
         ("Informacje podstawowe", {
             'fields': ('name', 'user')
         }),
-        ("Pierdoły", {
+        ("Inne", {
             'fields': ('account_type', 'country')
         }),
     )
@@ -20,6 +20,7 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(models.AccountType)
 class AccountTypeAdmin(admin.ModelAdmin):
     list_display = ('id', 'type')
+    ordering = ('type',)
 
 
 @admin.register(models.Post)
