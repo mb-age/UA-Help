@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE
+from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField
 
 
 # Create your models here.
@@ -35,6 +35,8 @@ class Profile(Model):
 class Post(Model):
     profile = ForeignKey(to=Profile, on_delete=CASCADE)
     content = TextField()
+    is_verificated = BooleanField(default=False)
+    created_at = DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.content

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
+from uahelp_app.models import Post, Profile
 
 
 # Create your views here.
@@ -11,8 +12,14 @@ no na pewno strona główna (z listą postów), strona formularza profilu (edycj
 class HomePageView(TemplateView):
     template_name = 'uahelp_app/home.html'
 
-class ProfileView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super(HomePageView, self).get_context_data(**kwargs)
+        context['posts'] = Post.objects.filter(is_verificated=True).order_by('-created_at')
+        return context
+
+class ProfileView(DetailView):
     template_name = 'uahelp_app/profile.html'
+    model = Profile
 
 class ProfileUpdateView():
     pass
@@ -21,7 +28,12 @@ class PostDetailView(TemplateView):
     template_name = 'uahelp_app/post_detail.html'
 
     def get_context_data(self, **kwargs):
-        pass
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        pk = kwargs.get('pk', None)
+        if pk:
+            post = Post.objects.get(id=pk)
+            context['post'] = post
+        return context
 
 class PostCreateView():
     pass
