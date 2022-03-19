@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
-from django.db import models
 from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField
 
-
 # Create your models here.
+from django.utils import timezone
+
 
 class AccountType(Model):
     type = CharField(max_length=40)
@@ -36,7 +36,7 @@ class Post(Model):
     profile = ForeignKey(to=Profile, on_delete=CASCADE)
     content = TextField()
     is_verificated = BooleanField(default=False)
-    created_at = DateTimeField(auto_now_add=True)
+    created_at = DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.content
