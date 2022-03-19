@@ -13,5 +13,14 @@
 {% block content %}
 
 <h1>Home</h1>
+    {% for post in posts %}
+        <h3>
+        {{ post.profile }}
+        </h3>
+        <small>{{ post.created_at }}</small>
+        <p>{{ post }}</p>
+    {% endfor %}
 
 {% endblock %}
+
+
