@@ -12,13 +12,11 @@ class AccountType(Model):
         return self.type
 
 
-
 class Country(Model):
     name = CharField(max_length=40)
 
     def __str__(self):
         return self.name
-
 
 
 class Profile(Model):
@@ -31,7 +29,6 @@ class Profile(Model):
         return self.name
 
 
-
 class Post(Model):
     profile = ForeignKey(to=Profile, on_delete=CASCADE)
     content = TextField()
@@ -42,14 +39,9 @@ class Post(Model):
         return self.content
 
 
-
 class Link(Model):
     profile = ForeignKey(to=Profile, on_delete=CASCADE)
     content = URLField()
 
     def __str__(self):
         return self.content
-
-
-
-
