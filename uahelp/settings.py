@@ -31,13 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'uahelp_app.apps.UahelpAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'uahelp_app',
 ]
 
 MIDDLEWARE = [
@@ -104,14 +104,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
-USE_TZ = True
-
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -122,7 +121,29 @@ STATICFILES_DIRS = [
     BASE_DIR / 'uahelp_app/static'
 ]
 
+LOGIN_REDIRECT_URL = 'home_page'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Emal configuration
+# EMAIL_BACKEND = 'django.core.email.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'django3byexample@gmail.com'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# ---------------- Local Settings ---------------------------------------
+# Put your local settings in directory to override this settings
+# File name should be local_settings.py
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+# ---------------- End Local Settings ------------------------------------
