@@ -1,10 +1,17 @@
-from django.contrib.auth import login, authenticate
+from datetime import timedelta
+from logging import getLogger
+
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import TemplateView, DetailView
+from django.utils import timezone
+from django.views.generic import TemplateView, DetailView, FormView
+from django.urls import reverse_lazy
 
 from uahelp_app.forms import LoginForm, UserRegistrationForm
 from uahelp_app.models import Post, Profile
+from uahelp_app.forms import PostDetailForm
 
 # Create your views here.
 
@@ -18,7 +25,8 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['posts'] = Post.objects.filter(is_verificated=True).order_by('-created_at')
+        verificated_time = timezone.now()-timedelta(minutes=5)
+        context['posts'] = Post.objects.filter(is_verificated=True, created_at__lte=verificated_time).order_by('-created_at')
         return context
 
 
@@ -43,12 +51,28 @@ class PostDetailView(TemplateView):
         return context
 
 
-class PostCreateView():
-    pass
+class PostCreateView(LoginRequiredMixin, FormView):
+    template_name = 'uahelp_app/post_create.html'
+    form_class = PostDetailForm
+    success_url = reverse_lazy('post_verification')
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        cleaned_data = form.cleaned_data
+        Post.objects.create(
+            title=cleaned_data['title'],
+            content=cleaned_data['content'],
+            profile_id=self.request.user.profile_set.first().id
+        )
+        return result
 
 
 class PostUpdateView():
     pass
+
+
+class AboutUsView(TemplateView):
+    template_name = 'uahelp_app/about.html'
 
 
 def user_login(request):
@@ -79,24 +103,20 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
+            print(new_user) #kita
+            Profile.objects.create(account_type=user_form.cleaned_data['account_type'],
+                                   name=user_form.cleaned_data['name'],
+                                   user=new_user)
             return render(request, 'registration/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
 
 
-class RegisterConfirmationView(TemplateView):
-    pass
+class PostVerificationView(TemplateView):
+    template_name = 'uahelp_app/post_verification.html'
 
 
-class VerificationInfoView(TemplateView):
-    pass
-
-
-class PasswordUpdateView():
-    pass
-
-
-class PasswordResetView():
+class SearchResultView(TemplateView):
     pass
 

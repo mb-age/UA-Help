@@ -1,19 +1,15 @@
 {% extends 'base.html' %}
-{% load static %}
+
 
 {% block title %}
-    Title
-{% endblock %}
-
-{% block css %}
-{#    <link rel="stylesheet" href="{% static 'horoscope/css/index.css' %}">#}
+    {{ post.title }}
 {% endblock %}
 
 
 {% block content %}
-
-    <h3>{{ post.profile }}</h3>
+    <br>
+    <h5>{{ post.profile }}</h5>
     <small>{{ post.created_at }}</small>
+    <p><br><h3>{{ post.title }}</h3></p>
     <p>{{ post }}</p>
-
 {% endblock %}

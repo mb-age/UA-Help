@@ -5,9 +5,9 @@
 {% block content %}
     <h1>Utwórz konto</h1>
     <p>Wypełnij poniższy formularz, aby się zarejestrować:</p>
-    <form method="post" action=".">
-        {{ user_form.as_p }}
+    <form action="." method="post">
         {% csrf_token %}
+        {{ user_form.as_p }}
         <p><input type="submit" value="Utwórz konto"></p>
     </form>
 {% endblock %}

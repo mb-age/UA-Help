@@ -124,6 +124,7 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = 'home_page'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'home_page'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -132,10 +133,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Emal configuration
 # EMAIL_BACKEND = 'django.core.email.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'django3byexample@gmail.com'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
+EMAIL_PORT = 465
 EMAIL_USE_TLS = True
 
 # ---------------- Local Settings ---------------------------------------
@@ -147,3 +148,5 @@ except ImportError:
     pass
 
 # ---------------- End Local Settings ------------------------------------
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

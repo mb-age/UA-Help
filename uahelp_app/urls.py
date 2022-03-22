@@ -8,5 +8,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
     path('post/<int:pk>', views.PostDetailView.as_view(), name='post_detail_view'),
+    path('post/create/', views.PostCreateView.as_view(), name='post_create_view'),
+    path('post/verification/', views.PostVerificationView.as_view(), name='post_verification'),
+    path('about/', views.AboutUsView.as_view(), name='about'),
 
 ]

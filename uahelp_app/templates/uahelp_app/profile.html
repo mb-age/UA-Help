@@ -12,7 +12,10 @@
 
 {% block content %}
 
-<h1>Profile</h1>
-    {{ object }}
+    <p></p>
+    <p>Login: <strong>{{ object.user }}</strong></p>
+    <p>Imię: <strong>{{ object.name }}</strong></p>
+    <p>Typ konta: <strong>{{ object.account_type }}</strong></p>
+
 
 {% endblock %}

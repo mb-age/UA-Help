@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %} Verification {% endblock %}
+
+{% block content %}
+    <h3>Trwa weryfikacja wpisu</h3>
+    <p>Twój wpis musi zostać zweryfikowany, to może trwać do 48h. Dziękujemy za cierpliwość.</p>
+    <p>Możesz wrócić na <a href="{% url 'home_page' %}">stronę główną</a></p>
+{% endblock %}
