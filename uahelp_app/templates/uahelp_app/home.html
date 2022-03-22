@@ -1,4 +1,4 @@
-{% extends 'uahelp_app/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
@@ -12,13 +12,19 @@
 
 {% block content %}
 
-<h1>Home</h1>
     {% for post in posts %}
-        <h3>
-        {{ post.profile }}
-        </h3>
+
+        <span class="d-block p-2 bg-light text-white">
+
+        <a class="nav-link link-dark" href="{% url 'post_detail_view' pk=post.pk %}">
+        <h4>{{ post.profile }}</h4>
         <small>{{ post.created_at }}</small>
-        <p>{{ post }}</p>
+        <p><h3>{{ post.title }}</h3></p>
+        <p>{{ post.content }}</p>
+        </a>
+
+        </span>
+        <p></p>
     {% endfor %}
 
 {% endblock %}

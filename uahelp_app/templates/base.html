@@ -16,26 +16,9 @@
 </head>
 <body>
 
-{#<nav class="navbar navbar-inverse">#}
-{#  <div class="container-fluid">#}
-{#    <div class="navbar-header">#}
-{#      <a class="navbar-brand" href="#">WebSiteName</a>#}
-{#    </div>#}
-{#    <ul class="nav navbar-nav">#}
-{#      <li class="active"><a href="#">Home</a></li>#}
-{#      <li><a href="#">Page 1</a></li>#}
-{#      <li><a href="#">Page 2</a></li>#}
-{#    </ul>#}
-{#    <ul class="nav navbar-nav navbar-right">#}
-{#      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>#}
-{#      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>#}
-{#    </ul>#}
-{#  </div>#}
-{#</nav>#}
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">UA Help</a>
+        <a class="navbar-brand" href="{% url 'home_page' %}">UA Help</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -46,7 +29,10 @@
                 {#          <a class="nav-link active" aria-current="page" href="#">Home</a>#}
                 {#        </li>#}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Add post <i class="bi-plus-lg"></i></a>
+                    <a class="nav-link" href="{% url 'about' %}">About us </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'post_create_view' %}">Add post <i class="bi-plus-lg"></i></a>
                 </li>
                 {#        <li class="nav-item">#}
                 {#          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
@@ -62,8 +48,27 @@
                 {#        <li class="nav-item">#}
                 {#            <a class="nav-link" href="#"><i class="bi-person-fill"></i> Sign Up </a>#}
                 {#        </li>#}
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="bi-box-arrow-in-right"></i> Login </a>
+                {% if request.user.is_authenticated and not request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' pk=request.user.profile_set.first.id %}">
+                            Hello, <strong>{{ request.user.profile_set.first }}</strong>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-in-right"></i> Logout
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Register </a>#}
+{#                    </li>#}
+                {% endif %}
                 </li>
             </ul>
 
@@ -71,7 +76,7 @@
         </div>
     </div>
 </nav>
-<div class="container">
+<div class="container"><br>
     {% block content %}
     {% endblock %}
 </div>

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField
+from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField, ImageField
 
 # Create your models here.
 from django.utils import timezone
@@ -31,9 +31,12 @@ class Profile(Model):
 
 class Post(Model):
     profile = ForeignKey(to=Profile, on_delete=CASCADE)
-    content = TextField()
-    is_verificated = BooleanField(default=False)
     created_at = DateTimeField(default=timezone.now)
+    title = CharField(max_length=200)
+    content = TextField()
+    # img = ImageField(null=True)
+    # is_verificated = BooleanField(default=False)
+    is_verificated = BooleanField(default=True)
 
     def __str__(self):
         return self.content
