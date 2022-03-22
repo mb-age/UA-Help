@@ -121,6 +121,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'uahelp_app/static'
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uahelp_app/media'
+
 LOGIN_REDIRECT_URL = 'home_page'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
