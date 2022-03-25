@@ -1,21 +1,30 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}
-    Title
-{% endblock %}
-
-{% block css %}
-{#    <link rel="stylesheet" href="{% static 'horoscope/css/index.css' %}">#}
-{% endblock %}
-
+{% block title %} {{ object.name }} {% endblock %}
 
 {% block content %}
 
     <p></p>
+
+    {% if object.picture %}
+            <p>{{ object.picture }}</p>
+    {% endif %}
     <p>Login: <strong>{{ object.user }}</strong></p>
     <p>Imię: <strong>{{ object.name }}</strong></p>
-    <p>Typ konta: <strong>{{ object.account_type }}</strong></p>
-
+    {% if object.account_type %}
+        <p>Typ konta: <strong>{{ object.account_type }}</strong></p>
+    {% endif %}
+    {% if object.description %}
+        <p>Opis: <strong>{{ object.description }}</strong></p>
+    {% endif %}
+    {% if object.address %}
+        <p>Adres: <strong>{{ object.address }}</strong></p>
+    {% endif %}
+    {% if object.url %}
+        <p>Strona internetowa: <strong>{{ object.url }}</strong></p>
+    {% endif %}
+    {% if profile.pk is request.user.profile_set.first.id %}
+        <p><a href="{% url 'profile_update' pk=request.user.profile_set.first.id %}">Edit</a></p>
+    {% endif %}
 
 {% endblock %}

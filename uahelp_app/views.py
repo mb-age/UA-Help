@@ -6,12 +6,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import TemplateView, DetailView, FormView
+from django.views.generic import TemplateView, DetailView, FormView, UpdateView
 from django.urls import reverse_lazy
 
 from uahelp_app.forms import LoginForm, UserRegistrationForm
 from uahelp_app.models import Post, Profile
-from uahelp_app.forms import PostDetailForm
+from uahelp_app.forms import PostDetailForm, ProfileUpdateForm
 
 # Create your views here.
 
@@ -35,8 +35,13 @@ class ProfileView(DetailView):
     model = Profile
 
 
-class ProfileUpdateView():
-    pass
+class ProfileUpdateView(UpdateView):
+    template_name = 'uahelp_app/profile_update.html'
+    model = Profile
+    form_class = ProfileUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy('profile', args=[self.request.user.profile_set.first().id])
 
 
 class PostDetailView(TemplateView):

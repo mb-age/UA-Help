@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField, ImageField
+from django_countries.fields import CountryField
 
 # Create your models here.
 from django.utils import timezone
@@ -20,13 +21,17 @@ class Country(Model):
 
 
 class Profile(Model):
+    user = ForeignKey(to=User, on_delete=CASCADE, unique=True) # login
     name = CharField(max_length=200, help_text='Your name/nickname/company name etc.')
-    account_type = ForeignKey(to=AccountType, on_delete=CASCADE)
-    user = ForeignKey(to=User, on_delete=CASCADE)
+    account_type = ForeignKey(to=AccountType, on_delete=CASCADE, null=True, blank=True)
+    description = TextField(null=True, blank=True)
     country = ForeignKey(to=Country, on_delete=CASCADE, null=True, blank=True)
+    address = CharField(max_length=200, null=True, blank=True)
+    url = URLField(null=True, blank=True) #temporarily
+    # country = CountryField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.user} ({self.name})"
 
 
 class Post(Model):
