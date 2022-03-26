@@ -50,8 +50,8 @@
                 {#        </li>#}
                 {% if request.user.is_authenticated and not request.user.is_anonymous %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' pk=request.user.profile_set.first.id %}">
-                            Hello, <strong>{{ request.user.profile_set.first }}</strong>
+                        <a class="nav-link" href="{% url 'profile' pk=request.user.profile_set.first.id %}"> {# pk=request.user.profile_set.first.id #}
+                            Hello, <strong>{{ request.user.profile_set.first.name }}</strong>
                         </a>
                     </li>
                     <li class="nav-item">

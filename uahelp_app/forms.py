@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from django_countries.widgets import CountrySelectWidget
+
 from . import models
 
 
@@ -10,7 +12,6 @@ class LoginForm(forms.Form):
 
 class UserRegistrationForm(forms.ModelForm):
     name = forms.CharField()
-    account_type = forms.ModelChoiceField(queryset=models.AccountType.objects)
     password = forms.CharField(label="Hasło", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Powtórz hasło", widget=forms.PasswordInput)
 
@@ -32,3 +33,13 @@ class PostDetailForm(forms.ModelForm):
         fields = ['title', 'content']
 
 
+class ProfileUpdateForm(forms.ModelForm):
+
+    account_type = forms.ModelChoiceField(queryset=models.AccountType.objects)
+    # user = forms.CharField()
+    # link = forms.URLField() # na później
+
+    class Meta:
+        model = models.Profile
+        exclude = ['user', 'country']
+        # widgets = {'country': CountrySelectWidget()}
