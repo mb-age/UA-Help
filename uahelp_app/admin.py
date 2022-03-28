@@ -12,15 +12,15 @@ class ProfileLinkInlineAdmin(admin.TabularInline):
 
 @admin.register(models.Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'account_type', 'user', 'country')
-    fieldsets = (
-        ("Informacje podstawowe", {
-            'fields': ('name', 'user')
-        }),
-        ("Inne", {
-            'fields': ('account_type', 'country')
-        }),
-    )
+    list_display = ('id', 'user', 'name', 'account_type')
+    # fieldsets = (
+    #     ("Informacje podstawowe", {
+    #         'fields': ('name', 'user')
+    #     }),
+    #     ("Inne", {
+    #         'fields': ('account_type', 'country')
+    #     }),
+    # )
     ordering = ('-id',)
     inlines = (ProfileLinkInlineAdmin,)
 

@@ -11,5 +11,6 @@ urlpatterns = [
     path('post/create/', views.PostCreateView.as_view(), name='post_create_view'),
     path('post/verification/', views.PostVerificationView.as_view(), name='post_verification'),
     path('about/', views.AboutUsView.as_view(), name='about'),
+    path('profile/update/<pk>', views.ProfileUpdateView.as_view(), name='profile_update'),
 
 ]

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ object.name }}
+{% endblock %}
+
+
+{% block content %}
+
+    <form action="{% url 'profile_update' pk=request.user.profile_set.first.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="submit" value="Zapisz"></p>
+    </form>
+
+{% endblock %}
