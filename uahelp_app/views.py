@@ -1,11 +1,17 @@
 from datetime import timedelta
-from logging import getLogger
 
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.utils import timezone
+from django.views.generic import TemplateView, DetailView, FormView
+
+from uahelp_app.forms import LoginForm, UserRegistrationForm
+from uahelp_app.forms import PostDetailForm
+from uahelp_app.models import Post, Profile
+
 from django.views.generic import TemplateView, DetailView, FormView, UpdateView
 from django.urls import reverse_lazy
 
@@ -13,7 +19,9 @@ from uahelp_app.forms import LoginForm, UserRegistrationForm
 from uahelp_app.models import Post, Profile
 from uahelp_app.forms import PostDetailForm, ProfileUpdateForm
 
+
 # Create your views here.
+from uahelp_app.utils import generate_random_post
 
 '''
 no na pewno strona główna (z listą postów), strona formularza profilu (edycja), strona profilu, strona posta, strona formularza do postu, logowanie, rejestracja formularz, informacja o zarejestrowaniu/wyslaniu maila aktywującego, podziękowanie za kliknięcie w link?, zmiana hasla, reset hasla, dodaj post( przekierowanie na strone logowania jesli niezalogowany, else strona z formularzem), strona z powiadomieniem o weryfikacji, akcja - mail o pozytywnej weryfikacji, 
@@ -24,6 +32,7 @@ class HomePageView(TemplateView):
     template_name = 'uahelp_app/home.html'
 
     def get_context_data(self, **kwargs):
+        generate_random_post()
         context = super(HomePageView, self).get_context_data(**kwargs)
         verificated_time = timezone.now()-timedelta(minutes=5)
         context['posts'] = Post.objects.filter(is_verificated=True, created_at__lte=verificated_time).order_by('-created_at')

@@ -1,7 +1,16 @@
+
+import random
+from io import BytesIO
 from django.contrib.auth.models import User
 from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField, ImageField
 from django_countries.fields import CountryField
 
+
+import requests
+from django.contrib.auth.models import User
+from django.core.files import File
+from django.db.models import Model, CharField, TextField, URLField, ForeignKey, CASCADE, BooleanField, DateTimeField, \
+    ImageField, IntegerField
 # Create your models here.
 from django.utils import timezone
 
@@ -35,13 +44,32 @@ class Profile(Model):
 
 
 class Post(Model):
+    DONATION_TYPE = 0
+    PROMOTION_TYPE = 1
+    SHELTER_TYPE = 2
+    EVENT_TYPE = 3
+    POST_TYPES = (
+        (DONATION_TYPE, "Dotacja"),
+        (PROMOTION_TYPE, "Promocja"),
+        (SHELTER_TYPE, "Schronienie"),
+        (EVENT_TYPE, "Wydarzenie")
+    )
+
     profile = ForeignKey(to=Profile, on_delete=CASCADE)
     created_at = DateTimeField(default=timezone.now)
     title = CharField(max_length=200)
     content = TextField()
-    # img = ImageField(null=True)
-    # is_verificated = BooleanField(default=False)
-    is_verificated = BooleanField(default=True)
+    type = IntegerField(choices=POST_TYPES, default=DONATION_TYPE, help_text="Rodzaj pomocy")
+    dotation_amount = IntegerField(default=random.randint(10, 100000), help_text="Wysokość dotacji w PLN")
+    cover_image = ImageField(upload_to='post_images', null=True)
+    is_verificated = BooleanField(default=False)
+
+    def get_image_from_url(self, url):
+        resp = requests.get(url)
+        fp = BytesIO()
+        fp.write(resp.content)
+        file_name = url.split("/")[-1]  # There's probably a better way of doing this but this is just a quick example
+        self.cover_image.save(file_name, File(fp))
 
     def __str__(self):
         return self.content
